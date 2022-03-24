@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Edible</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+<div class="card">
+    <div class="card-body">
+        <div class="col-md-10">
+            <div class="row">
+                <form action="#" th:action="@{/}" th:object="${requestIP}" method="post">
+                    <div class="form-group col-md-8">
+                        <label for="ip" class="col-form-label" /> IP Address:
+                        <input type="text" id="ip" th:field="*{ip}" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div th:if="${country!=null}" class="row">
+                <div th:if="${!#strings.isEmpty(country.name)}" class="form-group col-md-8">
+                    <div >Name </div>
+                    <div class="fs-1" th:text=${country.name}></div>
+                </div>
+                <div th:if="${!#strings.isEmpty(country.code)}" class="form-group col-md-8">
+                    <div >Code </div>
+                    <div class="fs-1" th:text=${country.code}></div>
+                </div>
+                <div th:if="${!#strings.isEmpty(country.distance)}" class="form-group col-md-8">
+                    <div >Distance from B.A. </div>
+                    <div class="fs-1" th:text=${country.distance}></div>
+                </div>
+                <div th:if="${!#strings.isEmpty(country.currency)}" class="form-group col-md-8">
+                    <div >Currency </div>
+                    <div class="fs-1" th:text=${country.currency}></div>
+                </div>
+                <div th:if="${!#strings.isEmpty(country.currencyRateUSD)}" class="form-group col-md-8">
+                    <div >Currency Rate </div>
+                    <div class="fs-1" th:text=${country.currencyRateUSD}></div>
+                </div>
+                <div th:if="${!#strings.isEmpty(country.languages)}" class="form-group col-md-8">
+                    <div >Languages </div>
+                    <div th:each="language: ${country.languages}">
+                        <div class="fs-1"  th:text="${language}"></div>
+                    </div>
+                </div>
+                <div th:if="${!#strings.isEmpty(country.localTimes)}" class="form-group col-md-8">
+                    <div >Local Times </div>
+                    <div th:each="localTime: ${country.localTimes}">
+                        <div class="fs-1" th:text="${localTime}"></div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${stats!=null}" class="row">
+                <div >Statistics (min/max/avg) distance (KM) </div>
+                <div class="fs-1" th:text="${stats.min + '/' + stats.max + '/' + stats.avg}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

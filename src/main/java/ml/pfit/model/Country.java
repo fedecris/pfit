@@ -14,6 +14,7 @@ import java.util.HashMap;
 @Setter
 public class Country {
 
+
     /** Country CODE (ARG, ITA, BRA, etc.) */
     private String code;
 
@@ -66,11 +67,20 @@ public class Country {
         return ret;
     }
 
-    /** @return a JSON representation of local current times based on the timeZone */
+    /** @return a JSON representation of current local times based on the timeZone */
     protected JSONArray getJSONLocalTimes() {
         JSONArray ret = new JSONArray();
         timeZones.forEach(tz -> ret.add( ZonedDateTime.now().withZoneSameInstant(ZoneId.of(tz)).toString() ));
         return ret;
     }
+
+    /** @return current local times based on the timeZone */
+    public ArrayList<String> getLocalTimes() {
+        ArrayList<String> ret = new ArrayList<>();
+        timeZones.forEach(tz -> ret.add( ZonedDateTime.now().withZoneSameInstant(ZoneId.of(tz)).toString() ));
+        return ret;
+    }
+
+
 
 }
