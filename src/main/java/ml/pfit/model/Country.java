@@ -33,7 +33,7 @@ public class Country {
     private String currency;
 
     /** Local currency based on USD */
-    private String currencyRateUSD;
+    private Double currencyRateUSD;
 
     /** @return a conversion of this object to a JSONObject entity */
     public JSONObject toJSON() {
