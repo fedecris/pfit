@@ -25,7 +25,7 @@ public class RemoteAPI {
             JSONParser jsonParser = new JSONParser();
             return jsonParser.parse(respStr);
         } catch (Exception e) {
-            throw new Exception(String.format("Error connecting to %s: %s", url, e));
+            throw new Exception(String.format("Error connecting to %s: %s", url, e.getMessage()));
         }
     }
 }

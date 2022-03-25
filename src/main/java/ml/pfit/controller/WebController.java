@@ -40,7 +40,8 @@ public class WebController {
             model.addAttribute("stats", statsFactory.getInstance().toJSON());
             return "main-form";
         } catch (Exception e) {
-            e.printStackTrace();
+            // Basic interaction.  Simply propagate the error to the user
+            model.addAttribute("detail", e.getMessage());
             return "error";
         }
     }

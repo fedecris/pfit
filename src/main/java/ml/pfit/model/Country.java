@@ -8,7 +8,6 @@ import org.json.simple.JSONObject;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Getter
 @Setter
@@ -81,6 +80,16 @@ public class Country {
         return ret;
     }
 
-
+    /** Load variables based on other instance
+     * @param other country which variables should be taken from */
+    public void load(Country other) {
+        this.code = other.code;
+        this.name = other.name;
+        this.languages = other.languages;
+        this.timeZones = other.timeZones;
+        this.distance = other.distance;
+        this.currency = other.currency;
+        this.currencyRateUSD = other.currencyRateUSD;
+    }
 
 }

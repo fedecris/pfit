@@ -1,5 +1,7 @@
 package ml.pfit.resolve;
 
+import ml.pfit.cache.Cache;
+import ml.pfit.cache.CacheManager;
 import ml.pfit.model.Country;
 import ml.pfit.utils.Distance;
 import ml.pfit.utils.RemoteAPI;
@@ -25,15 +27,26 @@ public class CountryResolver {
     @Value("${country.api.baseurl}")
     private String API_BASE_URL;
 
+    @Autowired
+    private CacheManager cache;
+
     /**
      * Retrieves additional information about a country based on its code
      * @param country instance to be loaded */
     public void resolve(Country country) throws Exception {
+        // Country information does not change in time, check for its existence on cache.
+        // Cache behaviour: Country Code -> Country
+        Country cached = (Country)getCache().get(country.getCode());
+        if (cached!=null) {
+            country.load(cached);
+            return;
+        }
         JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + country.getCode());
         country.setCurrency(getCurrency(response));
         country.setLanguages(getLanguages(response));
         country.setTimeZones(getTimeZones(response));
         country.setDistance(getDistance(response));
+        getCache().put(country.getCode(), country);
     }
 
     /** @return the main currency of the country */
@@ -66,6 +79,11 @@ public class CountryResolver {
         double lat = (double)((JSONArray)obj.get("latlng")).get(0);
         double lng = (double)((JSONArray)obj.get("latlng")).get(1);
         return Distance.euclidean(lat, BA_LAT, lng, BA_LNG);
+    }
+
+    /** Retrieves the country cache */
+    protected Cache getCache() {
+        return cache.getInstance("country");
     }
 
 }
