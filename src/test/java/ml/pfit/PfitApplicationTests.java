@@ -2,12 +2,12 @@ package ml.pfit;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Random;
 
@@ -27,7 +27,7 @@ public class PfitApplicationTests {
 	/** Trace IP path */
 	String traceUrl 	= "/traceip/";
 
-	/** Trace IP Stats path */
+	/** Stats path */
 	String statsUrl 	= "/stats";
 
 	/** An IP from Brazil */
@@ -36,8 +36,21 @@ public class PfitApplicationTests {
 	/** An IP from Argentina */
 	String IP_ARG = "190.247.191.203";
 
+
 	@Test
-	void severalCallsShouldReturnCorrectMinMaxAvg() throws Exception {
+	void correctCallToStatsShouldReturnStatus200() throws Exception {
+		ResponseEntity<String> response = callStats();
+		Assertions.assertEquals(200, response.getStatusCode().value());
+	}
+
+	@Test
+	void incorrectCallToTraceShouldReturnStatusDifferentThan200() throws Exception {
+		ResponseEntity<String> response = callTraceForIP("999");
+		Assertions.assertNotEquals(200, response.getStatusCode().value());
+	}
+
+	@Test
+	void severalCallsToTraceShouldReturnCorrectMinMaxAvg() throws Exception {
 		Random r = new Random();
 		// Argentina invocation count
 		int argCalls = r.nextInt(9) + 1;
@@ -60,7 +73,7 @@ public class PfitApplicationTests {
 		}
 
 		// Are min, max and avg as expected?
-		HttpEntity<String> response = restTemplate.exchange(String.format("%s%s", getBaseURL(), statsUrl), GET, new HttpEntity<>(new HttpHeaders()), String.class);
+		ResponseEntity<String> response = callStats();
 		JSONParser jsonParser = new JSONParser();
 		JSONObject json = (JSONObject)jsonParser.parse(response.getBody());
 
@@ -75,8 +88,13 @@ public class PfitApplicationTests {
 
 	/** Calls the API tracing a specific IP
 	 * @param ip the IP to trace */
-	void callTraceForIP(String ip) {
-		restTemplate.exchange(String.format("%s%s%s", getBaseURL(), traceUrl, ip), GET, new HttpEntity<>(new HttpHeaders()), String.class);
+	ResponseEntity<String> callTraceForIP(String ip) {
+		return restTemplate.exchange(String.format("%s%s%s", getBaseURL(), traceUrl, ip), GET, null, String.class);
+	}
+
+	/** Calls the API for stats info */
+	ResponseEntity<String> callStats() {
+		return restTemplate.exchange(String.format("%s%s", getBaseURL(), statsUrl), GET, null, String.class);
 	}
 
 	/** @return base URL for API tests */

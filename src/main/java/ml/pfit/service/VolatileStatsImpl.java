@@ -33,18 +33,16 @@ public class VolatileStatsImpl implements StatsInterface {
 
     @Override
     public Integer maxDistance() {
-        return maxDist;
+        return maxDist != Integer.MIN_VALUE ? maxDist : 0;
     }
 
     @Override
     public Integer minDistance() {
-        return minDist;
+        return minDist != Integer.MAX_VALUE ? minDist : 0;
     }
 
     @Override
     public Integer avgDistance() {
-        if (totalRequest > 0)
-            return Math.toIntExact(totalDistance / totalRequest);
-        return 0;
+        return totalRequest > 0 ? Math.toIntExact(totalDistance / totalRequest) : 0;
     }
 }

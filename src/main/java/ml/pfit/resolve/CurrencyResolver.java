@@ -18,6 +18,9 @@ public class CurrencyResolver {
     @Value("${currency.api.baseurl}")
     private String API_BASE_URL;
 
+    @Value("${currency.api.cachemins}")
+    private Integer API_CACHE_EXP_MINS;
+
     @Autowired
     private CacheManager cache;
 
@@ -50,6 +53,7 @@ public class CurrencyResolver {
 
     /** Retrieves the currency cache */
     protected Cache getCache() {
-        return cache.getInstance("currency", 60);
+        return cache.getInstance("currency", API_CACHE_EXP_MINS
+        );
     }
 }
