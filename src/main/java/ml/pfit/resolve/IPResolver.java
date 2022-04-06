@@ -12,14 +12,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class IPResolver {
 
-    @Autowired
-    private RemoteAPI remoteAPI;
-
     @Value("${ip.api.baseurl}")
     private String API_BASE_URL;
 
+    private final RemoteAPI remoteAPI;
+
+    private final CacheManager cacheManager;
+
     @Autowired
-    private CacheManager cache;
+    public IPResolver(RemoteAPI remoteAPI, CacheManager cacheManager) {
+        this.remoteAPI = remoteAPI;
+        this.cacheManager = cacheManager;
+    }
 
     /**
      * Retrieves information about a country based on its IP
@@ -44,7 +48,7 @@ public class IPResolver {
 
     /** Retrieves the IP cache */
     protected Cache getCache() {
-        return cache.getInstance("ip", 1);
+        return cacheManager.getInstance("ip");
     }
 
 }

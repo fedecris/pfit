@@ -12,17 +12,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrencyResolver {
 
-    @Autowired
-    RemoteAPI remoteAPI;
-
     @Value("${currency.api.baseurl}")
     private String API_BASE_URL;
 
     @Value("${currency.api.cachemins}")
     private Integer API_CACHE_EXP_MINS;
 
+    private final RemoteAPI remoteAPI;
+
+    private final CacheManager cacheManager;
+
     @Autowired
-    private CacheManager cache;
+    public CurrencyResolver(RemoteAPI remoteAPI, CacheManager cacheManager) {
+        this.remoteAPI = remoteAPI;
+        this.cacheManager = cacheManager;
+    }
 
     /**
      * Retrieves currency rate information about a country based on its main currency.
@@ -53,7 +57,7 @@ public class CurrencyResolver {
 
     /** Retrieves the currency cache */
     protected Cache getCache() {
-        return cache.getInstance("currency", API_CACHE_EXP_MINS
+        return cacheManager.getInstance("currency", API_CACHE_EXP_MINS
         );
     }
 }

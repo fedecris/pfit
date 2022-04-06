@@ -8,17 +8,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestResolver {
 
-    @Autowired
-    IPResolver ipResolver;
+    private final IPResolver ipResolver;
+
+    private final CountryResolver countryResolver;
+
+    private final CurrencyResolver currencyResolver;
+
+    private final StatsFactory statsFactory;
 
     @Autowired
-    CountryResolver countryResolver;
-
-    @Autowired
-    CurrencyResolver currencyResolver;
-
-    @Autowired
-    StatsFactory statsFactory;
+    public RequestResolver(IPResolver ipResolver, CountryResolver countryResolver, CurrencyResolver currencyResolver, StatsFactory statsFactory) {
+        this.ipResolver = ipResolver;
+        this.countryResolver = countryResolver;
+        this.currencyResolver = currencyResolver;
+        this.statsFactory = statsFactory;
+    }
 
     /** Retrieves the complete information of a request
      *  @param ip the IP for this request

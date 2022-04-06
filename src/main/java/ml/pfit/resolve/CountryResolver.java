@@ -21,14 +21,18 @@ public class CountryResolver {
     /** Buenos Aires City Longitude */
     static final double BA_LNG = -58.3816f;
 
-    @Autowired
-    RemoteAPI remoteAPI;
-
     @Value("${country.api.baseurl}")
     private String API_BASE_URL;
 
+    private final RemoteAPI remoteAPI;
+
+    private final CacheManager cacheMagager;
+
     @Autowired
-    private CacheManager cache;
+    public CountryResolver(RemoteAPI remoteAPI, CacheManager cacheManager) {
+        this.remoteAPI = remoteAPI;
+        this.cacheMagager = cacheManager;
+    }
 
     /**
      * Retrieves additional information about a country based on its code
@@ -83,7 +87,7 @@ public class CountryResolver {
 
     /** Retrieves the country cache */
     protected Cache getCache() {
-        return cache.getInstance("country");
+        return cacheMagager.getInstance("country");
     }
 
 }
