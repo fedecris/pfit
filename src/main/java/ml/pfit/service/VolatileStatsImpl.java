@@ -1,12 +1,14 @@
 package ml.pfit.service;
 
 import ml.pfit.model.Country;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
 /**
  * A simple volatile in-memory statistics store implementation
  */
+@Component
 public class VolatileStatsImpl implements StatsInterface {
 
     /** Distance accumulator */
