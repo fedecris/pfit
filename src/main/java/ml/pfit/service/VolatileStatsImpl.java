@@ -1,9 +1,7 @@
 package ml.pfit.service;
 
-import ml.pfit.model.Country;
+import ml.pfit.dto.TraceRequest;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 
 /**
  * A simple volatile in-memory statistics store implementation
@@ -24,13 +22,13 @@ public class VolatileStatsImpl implements StatsInterface {
     protected static Integer minDist = Integer.MAX_VALUE;
 
     @Override
-    public synchronized void storeRequest(Country country) {
+    public synchronized void storeRequest(TraceRequest traceRequest) {
         // Accumulative distance & requests count
-        totalDistance += country.getDistance();
+        totalDistance += traceRequest.getDistance();
         totalRequest += 1;
         // Set max, min distances (if corresponds)
-        maxDist = Math.max(maxDist, country.getDistance());
-        minDist = Math.min(minDist, country.getDistance());
+        maxDist = Math.max(maxDist, traceRequest.getDistance());
+        minDist = Math.min(minDist, traceRequest.getDistance());
     }
 
     @Override

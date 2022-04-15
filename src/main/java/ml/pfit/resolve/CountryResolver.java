@@ -2,7 +2,7 @@ package ml.pfit.resolve;
 
 import ml.pfit.cache.Cache;
 import ml.pfit.cache.CacheManager;
-import ml.pfit.model.Country;
+import ml.pfit.dto.TraceRequest;
 import ml.pfit.utils.Distance;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONArray;
@@ -26,31 +26,24 @@ public class CountryResolver {
 
     private final RemoteAPI remoteAPI;
 
-    private final CacheManager cacheMagager;
+    private final CacheManager cacheManager;
 
     @Autowired
     public CountryResolver(RemoteAPI remoteAPI, CacheManager cacheManager) {
         this.remoteAPI = remoteAPI;
-        this.cacheMagager = cacheManager;
+        this.cacheManager = cacheManager;
     }
 
     /**
      * Retrieves additional information about a country based on its code
-     * @param country instance to be loaded */
-    public void resolve(Country country) throws Exception {
-        // Country information does not change in time, check for its existence on cache.
-        // Cache behaviour: Country Code -> Country
-        Country cached = (Country)getCache().get(country.getCode());
-        if (cached!=null) {
-            country.load(cached);
-            return;
-        }
-        JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + country.getCode());
-        country.setCurrency(getCurrency(response));
-        country.setLanguages(getLanguages(response));
-        country.setTimeZones(getTimeZones(response));
-        country.setDistance(getDistance(response));
-        getCache().put(country.getCode(), country);
+     * @param traceRequest instance to be loaded */
+    public void resolve(TraceRequest traceRequest) throws Exception {
+        JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + traceRequest.getCode());
+        traceRequest.setCurrency(getCurrency(response));
+        traceRequest.setLanguages(getLanguages(response));
+        traceRequest.setTimeZones(getTimeZones(response));
+        traceRequest.setDistance(getDistance(response));
+        traceRequest.calculateLocalTimes();
     }
 
     /** @return the main currency of the country */
@@ -87,7 +80,7 @@ public class CountryResolver {
 
     /** Retrieves the country cache */
     protected Cache getCache() {
-        return cacheMagager.getInstance("country");
+        return cacheManager.getInstance("country");
     }
 
 }

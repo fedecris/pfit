@@ -1,7 +1,6 @@
 package ml.pfit.controller;
 
-import ml.pfit.model.Country;
-import ml.pfit.model.RequestIP;
+import ml.pfit.dto.TraceRequest;
 import ml.pfit.resolve.RequestResolver;
 import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +28,16 @@ public class WebController {
     @GetMapping("/")
     public String main(Model model) {
         // Display an example IP
-        RequestIP requestIP = new RequestIP("177.47.27.205");
-        model.addAttribute("requestIP", requestIP);
+        model.addAttribute("traceRequest", new TraceRequest());
         return "main-form";
     }
 
     /** User query about an IP */
     @PostMapping("/")
-    public String traceIP(Model model, @ModelAttribute RequestIP requestIP) {
+    public String traceIP(Model model, @ModelAttribute TraceRequest traceRequest) {
         try {
-            Country country = requestResolver.resolve(requestIP.getIp());
-            model.addAttribute("requestIP", requestIP);
-            model.addAttribute("country", country);
+            traceRequest = requestResolver.resolve(traceRequest);
+            model.addAttribute("traceRequest", traceRequest);
             model.addAttribute("stats", stats.toJSON());
             return "main-form";
         } catch (Exception e) {

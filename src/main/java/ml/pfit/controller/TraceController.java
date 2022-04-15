@@ -1,5 +1,6 @@
 package ml.pfit.controller;
 
+import ml.pfit.dto.TraceRequest;
 import ml.pfit.resolve.RequestResolver;
 import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class TraceController {
@@ -25,11 +27,12 @@ public class TraceController {
 
     /** End-point for retrieving info about a specific IP */
     @GetMapping("/api/traceip/{ip}")
-    public ResponseEntity<Object> traceIP(Model model, @PathVariable("ip") String ip) {
+    public @ResponseBody TraceRequest traceIP(Model model, @PathVariable("ip") String ip) {
         try {
-            return new ResponseEntity<>(requestResolver.resolve(ip).toJSON(), HttpStatus.OK);
+            return requestResolver.resolve(new TraceRequest(ip));
         } catch (Exception e) {
-            return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            return null;
         }
     }
 

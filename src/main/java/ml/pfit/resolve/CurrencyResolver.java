@@ -2,7 +2,7 @@ package ml.pfit.resolve;
 
 import ml.pfit.cache.Cache;
 import ml.pfit.cache.CacheManager;
-import ml.pfit.model.Country;
+import ml.pfit.dto.TraceRequest;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,27 +31,19 @@ public class CurrencyResolver {
     /**
      * Retrieves currency rate information about a country based on its main currency.
      * If no info is available, will set 0.0 as currency rate
-     * @param country instance to be loaded */
-    public void resolve(Country country)  {
+     * @param traceRequest instance to be loaded */
+    public void resolve(TraceRequest traceRequest)  {
         try {
-            // Currency information might change in time, check for its existence on a short-lived cache.
-            // Cache behaviour: Country Code -> USDCurrencyRate
-            Double cached = (Double)getCache().get(country.getCode());
-            if (cached!=null) {
-                country.setCurrencyRateUSD(cached);
-                return;
-            }
-            JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + country.getCurrency());
+            JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + traceRequest.getCurrency());
             // Free plan only allows EUR as base currency.  Otherwise a base_currency_access_restricted is returned
             JSONObject rates =  (JSONObject)response.get("rates");
             double usdRate = (double) rates.get("USD");
-            double targetRate = (double) rates.get(country.getCurrency());
-            country.setCurrencyRateUSD(targetRate / usdRate);
-            getCache().put(country.getCode(), country.getCurrencyRateUSD());
+            double targetRate = (double) rates.get(traceRequest.getCurrency());
+            traceRequest.setCurrencyRateUSD(targetRate / usdRate);
         } catch (Exception e) {
             // API not available, limit reached or information unavailable.
             // Currency conversion not available, ignore.
-            country.setCurrencyRateUSD(0.0);
+            traceRequest.setCurrencyRateUSD(0.0);
         }
     }
 

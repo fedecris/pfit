@@ -1,9 +1,10 @@
 package ml.pfit.resolve;
 
-import ml.pfit.model.Country;
+import ml.pfit.dto.TraceRequest;
 import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class RequestResolver {
@@ -25,16 +26,16 @@ public class RequestResolver {
     }
 
     /** Retrieves the complete information of a request
-     *  @param ip the IP for this request
+     *  @param traceRequest the request to solve
      *  @return the retrieved information related with the Country */
-    public Country resolve(String ip) throws Exception {
+    public TraceRequest resolve(TraceRequest traceRequest) throws Exception {
         // Retrieve info from the APIs
-         Country country = ipResolver.resolve(ip);
-        countryResolver.resolve(country);
-        currencyResolver.resolve(country);
+        ipResolver.resolve(traceRequest);
+        countryResolver.resolve(traceRequest);
+        currencyResolver.resolve(traceRequest);
         // Store stats
-        statsHandler.storeRequest(country);
-        return country;
+        statsHandler.storeRequest(traceRequest);
+        return traceRequest;
     }
 
 }

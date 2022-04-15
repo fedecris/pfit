@@ -1,11 +1,10 @@
 package ml.pfit.service;
 
-import ml.pfit.model.Country;
+import ml.pfit.dto.TraceRequest;
 import ml.pfit.model.RequestStats;
 import ml.pfit.repository.RequestStatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * A simple volatile persistent statistics store implementation
@@ -20,11 +19,11 @@ public class MongoStatsImpl implements StatsInterface {
     protected RequestStats rs = null;
 
     @Override
-    public void storeRequest(Country country) {
+    public void storeRequest(TraceRequest traceRequest) {
         getRS().setTotalRequests(getRS().getTotalRequests()+1);
-        getRS().setTotalDistance(getRS().getTotalDistance()+country.getDistance());
-        getRS().setMaxDistance(Math.max(getRS().getMaxDistance(), country.getDistance()));
-        getRS().setMinDistance(Math.min(getRS().getMinDistance(), country.getDistance()));
+        getRS().setTotalDistance(getRS().getTotalDistance()+traceRequest.getDistance());
+        getRS().setMaxDistance(Math.max(getRS().getMaxDistance(), traceRequest.getDistance()));
+        getRS().setMinDistance(Math.min(getRS().getMinDistance(), traceRequest.getDistance()));
         repository.save(getRS());
     }
 
