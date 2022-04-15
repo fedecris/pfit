@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,9 +28,9 @@ public class TraceController {
 
     /** End-point for retrieving info about a specific IP */
     @GetMapping("/api/traceip/{ip}")
-    public @ResponseBody TraceRequest traceIP(Model model, @PathVariable("ip") String ip) {
+    public @ResponseBody TraceRequest traceIP(Model model, @PathVariable("ip") String ip, @ModelAttribute TraceRequest traceRequest) {
         try {
-            return requestResolver.resolve(new TraceRequest(ip));
+            return requestResolver.resolve(traceRequest);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

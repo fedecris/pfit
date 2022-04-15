@@ -26,9 +26,8 @@ public class WebController {
 
     /** Main page */
     @GetMapping("/")
-    public String main(Model model) {
-        // Display an example IP
-        model.addAttribute("traceRequest", new TraceRequest());
+    public String main(Model model, @ModelAttribute TraceRequest traceRequest) {
+        model.addAttribute("traceRequest", traceRequest);
         return "main-form";
     }
 
