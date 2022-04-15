@@ -1,11 +1,7 @@
 package ml.pfit.controller;
 
-import ml.pfit.model.Country;
-import ml.pfit.resolve.CountryResolver;
-import ml.pfit.resolve.CurrencyResolver;
-import ml.pfit.resolve.IPResolver;
 import ml.pfit.resolve.RequestResolver;
-import ml.pfit.service.StatsFactory;
+import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +16,12 @@ public class TraceController {
     @Autowired
     RequestResolver requestResolver;
 
+    private final StatsInterface stats;
+
     @Autowired
-    StatsFactory statsFactory;
+    public TraceController(StatsInterface stats) {
+        this.stats = stats;
+    }
 
     /** End-point for retrieving info about a specific IP */
     @GetMapping("/api/traceip/{ip}")
@@ -37,7 +37,7 @@ public class TraceController {
     @GetMapping("/api/stats")
     public ResponseEntity<Object> stats(Model model) {
         try {
-            return new ResponseEntity<>(statsFactory.getInstance().toJSON(), HttpStatus.OK);
+            return new ResponseEntity<>(stats.toJSON(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -3,7 +3,7 @@ package ml.pfit.controller;
 import ml.pfit.model.Country;
 import ml.pfit.model.RequestIP;
 import ml.pfit.resolve.RequestResolver;
-import ml.pfit.service.StatsFactory;
+import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +18,12 @@ public class WebController {
     @Autowired
     RequestResolver requestResolver;
 
+    private final StatsInterface stats;
+
     @Autowired
-    StatsFactory statsFactory;
+    public WebController(StatsInterface stats) {
+        this.stats = stats;
+    }
 
     /** Main page */
     @GetMapping("/")
@@ -37,7 +41,7 @@ public class WebController {
             Country country = requestResolver.resolve(requestIP.getIp());
             model.addAttribute("requestIP", requestIP);
             model.addAttribute("country", country);
-            model.addAttribute("stats", statsFactory.getInstance().toJSON());
+            model.addAttribute("stats", stats.toJSON());
             return "main-form";
         } catch (Exception e) {
             // Basic interaction.  Simply propagate the error to the user
