@@ -27,6 +27,10 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'javax.inject:javax.inject:1'
+	implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.8'
+	implementation 'org.springframework:spring-aop:5.2.9.RELEASE'
+	implementation 'org.springframework:spring-aspects:5.2.9.RELEASE'
+
 }
 
 tasks.named('test') {

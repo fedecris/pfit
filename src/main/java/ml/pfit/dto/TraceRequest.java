@@ -32,6 +32,8 @@ public class TraceRequest {
 
     private ArrayList<String> localTimes;
 
+    private Long responseTimeMS;
+
     public TraceRequest(String ip) {
         this.ip = ip;
     }

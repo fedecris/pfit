@@ -15,14 +15,11 @@ public class RequestResolver {
 
     private final CurrencyResolver currencyResolver;
 
-    private final StatsInterface statsHandler;
-
     @Autowired
-    public RequestResolver(IPResolver ipResolver, CountryResolver countryResolver, CurrencyResolver currencyResolver, StatsInterface statsHandler) {
+    public RequestResolver(IPResolver ipResolver, CountryResolver countryResolver, CurrencyResolver currencyResolver) {
         this.ipResolver = ipResolver;
         this.countryResolver = countryResolver;
         this.currencyResolver = currencyResolver;
-        this.statsHandler = statsHandler;
     }
 
     /** Retrieves the complete information of a request
@@ -33,8 +30,6 @@ public class RequestResolver {
         ipResolver.resolve(traceRequest);
         countryResolver.resolve(traceRequest);
         currencyResolver.resolve(traceRequest);
-        // Store stats
-        statsHandler.storeRequest(traceRequest);
         return traceRequest;
     }
 
