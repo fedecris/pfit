@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
 
+@Profile("test")
 @Configuration
 @EnableAspectJAutoProxy
-public class Generals {
+public class GeneralTestConfiguration {
 
     @Autowired
     private RemoteAPI remoteAPI;
@@ -34,31 +35,14 @@ public class Generals {
 
     @Bean
     @Primary
-    @Profile("prod")
-    public IPResolverInterface getIPResolver() { return new IPResolver(remoteAPI, cacheManager); }
-
-    @Bean
-    @Primary
-    @Profile("prod")
-    public CountryResolverInterface getCountryResolver() { return new CountryResolver(remoteAPI, cacheManager); }
-
-    @Bean
-    @Primary
-    @Profile("prod")
-    public CurrencyResolverInterface getCurrencyResolver() { return new CurrencyResolver(remoteAPI, cacheManager); }
-
-    @Bean
-    @Primary
-    @Profile("test")
     public IPResolverInterface getIPResolverTest() { return new IPMockResolver(); }
 
     @Bean
     @Primary
-    @Profile("test")
     public CountryResolverInterface getCountryResolverTest() { return new CountryMockResolver(); }
 
     @Bean
     @Primary
-    @Profile("test")
     public CurrencyResolverInterface getCurrencyResolverTest() { return new CurrencyMockResolver(); }
+
 }
