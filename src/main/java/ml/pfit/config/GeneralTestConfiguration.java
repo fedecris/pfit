@@ -1,6 +1,5 @@
 package ml.pfit.config;
 
-import ml.pfit.cache.CacheManager;
 import ml.pfit.dto.TraceRequest;
 import ml.pfit.resolve.*;
 import ml.pfit.service.StatsInterface;
@@ -17,9 +16,6 @@ public class GeneralTestConfiguration {
 
     @Autowired
     private RemoteAPI remoteAPI;
-
-    @Autowired
-    private CacheManager cacheManager;
 
     @Bean
     @Primary

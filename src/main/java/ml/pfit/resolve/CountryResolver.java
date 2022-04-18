@@ -1,7 +1,5 @@
 package ml.pfit.resolve;
 
-import ml.pfit.cache.Cache;
-import ml.pfit.cache.CacheManager;
 import ml.pfit.dto.TraceRequest;
 import ml.pfit.utils.Distance;
 import ml.pfit.utils.RemoteAPI;
@@ -9,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,12 +25,10 @@ public class CountryResolver implements CountryResolverInterface {
 
     private final RemoteAPI remoteAPI;
 
-    private final CacheManager cacheManager;
 
     @Autowired
-    public CountryResolver(RemoteAPI remoteAPI, CacheManager cacheManager) {
+    public CountryResolver(RemoteAPI remoteAPI) {
         this.remoteAPI = remoteAPI;
-        this.cacheManager = cacheManager;
     }
 
     /**
@@ -76,11 +73,6 @@ public class CountryResolver implements CountryResolverInterface {
         double lat = (double)((JSONArray)obj.get("latlng")).get(0);
         double lng = (double)((JSONArray)obj.get("latlng")).get(1);
         return Distance.euclidean(lat, BA_LAT, lng, BA_LNG);
-    }
-
-    /** Retrieves the country cache */
-    protected Cache getCache() {
-        return cacheManager.getInstance("country");
     }
 
 }

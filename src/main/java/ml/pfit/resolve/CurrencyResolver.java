@@ -1,12 +1,11 @@
 package ml.pfit.resolve;
 
-import ml.pfit.cache.Cache;
-import ml.pfit.cache.CacheManager;
 import ml.pfit.dto.TraceRequest;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,12 +19,9 @@ public class CurrencyResolver implements CurrencyResolverInterface {
 
     private final RemoteAPI remoteAPI;
 
-    private final CacheManager cacheManager;
-
     @Autowired
-    public CurrencyResolver(RemoteAPI remoteAPI, CacheManager cacheManager) {
+    public CurrencyResolver(RemoteAPI remoteAPI) {
         this.remoteAPI = remoteAPI;
-        this.cacheManager = cacheManager;
     }
 
     /**
@@ -47,9 +43,4 @@ public class CurrencyResolver implements CurrencyResolverInterface {
         }
     }
 
-    /** Retrieves the currency cache */
-    protected Cache getCache() {
-        return cacheManager.getInstance("currency", API_CACHE_EXP_MINS
-        );
-    }
 }

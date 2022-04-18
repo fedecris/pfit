@@ -1,12 +1,11 @@
 package ml.pfit.resolve;
 
-import ml.pfit.cache.Cache;
-import ml.pfit.cache.CacheManager;
 import ml.pfit.dto.TraceRequest;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,12 +16,9 @@ public class IPResolver implements IPResolverInterface {
 
     private final RemoteAPI remoteAPI;
 
-    private final CacheManager cacheManager;
-
     @Autowired
-    public IPResolver(RemoteAPI remoteAPI, CacheManager cacheManager) {
+    public IPResolver(RemoteAPI remoteAPI) {
         this.remoteAPI = remoteAPI;
-        this.cacheManager = cacheManager;
     }
 
     /**
@@ -34,11 +30,6 @@ public class IPResolver implements IPResolverInterface {
         JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL.replace("IP_PLACEHOLDER", traceRequest.getIp()));
         traceRequest.setCode((String)response.get("country_code"));
         traceRequest.setName((String)response.get("country_name"));
-    }
-
-    /** Retrieves the IP cache */
-    protected Cache getCache() {
-        return cacheManager.getInstance("ip");
     }
 
 }

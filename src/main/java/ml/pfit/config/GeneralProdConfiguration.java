@@ -1,6 +1,5 @@
 package ml.pfit.config;
 
-import ml.pfit.cache.CacheManager;
 import ml.pfit.dto.TraceRequest;
 import ml.pfit.resolve.*;
 import ml.pfit.service.StatsInterface;
@@ -20,9 +19,6 @@ public class GeneralProdConfiguration {
     @Autowired
     private RemoteAPI remoteAPI;
 
-    @Autowired
-    private CacheManager cacheManager;
-
     @Bean
     @Primary
     public StatsInterface getStats() {
@@ -37,14 +33,14 @@ public class GeneralProdConfiguration {
 
     @Bean
     @Primary
-    public IPResolverInterface getIPResolver() { return new IPResolver(remoteAPI, cacheManager); }
+    public IPResolverInterface getIPResolver() { return new IPResolver(remoteAPI); }
 
     @Bean
     @Primary
-    public CountryResolverInterface getCountryResolver() { return new CountryResolver(remoteAPI, cacheManager); }
+    public CountryResolverInterface getCountryResolver() { return new CountryResolver(remoteAPI); }
 
     @Bean
     @Primary
-    public CurrencyResolverInterface getCurrencyResolver() { return new CurrencyResolver(remoteAPI, cacheManager); }
+    public CurrencyResolverInterface getCurrencyResolver() { return new CurrencyResolver(remoteAPI); }
 
 }

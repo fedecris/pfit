@@ -3,6 +3,7 @@ package ml.pfit.resolve;
 import ml.pfit.dto.TraceRequest;
 import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 
@@ -25,6 +26,7 @@ public class RequestResolver {
     /** Retrieves the complete information of a request
      *  @param traceRequest the request to solve
      *  @return the retrieved information related with the Country */
+    @Cacheable(cacheManager="default.cache", key="#traceRequest.ip", value="traceRequest")
     public TraceRequest resolve(TraceRequest traceRequest) throws Exception {
         // Retrieve info from the APIs
         ipResolver.resolve(traceRequest);
