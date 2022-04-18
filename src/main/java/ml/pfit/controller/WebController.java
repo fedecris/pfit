@@ -1,6 +1,6 @@
 package ml.pfit.controller;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.resolve.RequestResolver;
 import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +26,17 @@ public class WebController {
 
     /** Main page */
     @GetMapping("/")
-    public String main(Model model, @ModelAttribute TraceRequest traceRequest) {
-        model.addAttribute("traceRequest", traceRequest);
+    public String main(Model model, @ModelAttribute TraceRequestDTO traceRequestDTO) {
+        model.addAttribute("traceRequestDTO", traceRequestDTO);
         return "main-form";
     }
 
     /** User query about an IP */
     @PostMapping("/")
-    public String traceIP(Model model, @ModelAttribute TraceRequest traceRequest) {
+    public String traceIP(Model model, @ModelAttribute TraceRequestDTO traceRequestDTO) {
         try {
-            traceRequest = requestResolver.resolve(traceRequest);
-            model.addAttribute("traceRequest", traceRequest);
+            traceRequestDTO = requestResolver.resolve(traceRequestDTO);
+            model.addAttribute("traceRequestDTO", traceRequestDTO);
             model.addAttribute("stats", stats.toJSON());
             return "main-form";
         } catch (Exception e) {

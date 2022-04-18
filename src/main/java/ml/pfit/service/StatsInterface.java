@@ -1,13 +1,13 @@
 package ml.pfit.service;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.TraceRequestDTO;
 import org.json.simple.JSONObject;
 
 public interface StatsInterface {
 
     /** Stores a new request
-     * @param traceRequest the information related to this request */
-    void storeRequest(TraceRequest traceRequest);
+     * @param traceRequestDTO the information related to this request */
+    void storeRequest(TraceRequestDTO traceRequestDTO);
 
     /** @return the farthest distance in KM from Buenos Aires considering all API calls */
     Integer maxDistance();

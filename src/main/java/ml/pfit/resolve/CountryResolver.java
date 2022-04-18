@@ -1,6 +1,7 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.CountryRequestDTO;
+import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.utils.Distance;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONArray;
@@ -25,22 +26,25 @@ public class CountryResolver implements CountryResolverInterface {
 
     private final RemoteAPI remoteAPI;
 
-
     @Autowired
     public CountryResolver(RemoteAPI remoteAPI) {
         this.remoteAPI = remoteAPI;
     }
 
+    @Autowired
+    CountryRequestDTO dto;
+
     /**
      * Retrieves additional information about a country based on its code
-     * @param traceRequest instance to be loaded */
-    public void resolve(TraceRequest traceRequest) throws Exception {
-        JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + traceRequest.getCode());
-        traceRequest.setCurrency(getCurrency(response));
-        traceRequest.setLanguages(getLanguages(response));
-        traceRequest.setTimeZones(getTimeZones(response));
-        traceRequest.setDistance(getDistance(response));
-        traceRequest.calculateLocalTimes();
+     */
+    @Cacheable(cacheManager="default.cache", key="#countryCode", value="CountryRequestDTO")
+    public CountryRequestDTO resolve(String countryCode) throws Exception {
+        JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + countryCode);
+        dto.setCurrency(getCurrency(response));
+        dto.setLanguages(getLanguages(response));
+        dto.setTimeZones(getTimeZones(response));
+        dto.setDistance(getDistance(response));
+        return dto;
     }
 
     /** @return the main currency of the country */
@@ -74,5 +78,6 @@ public class CountryResolver implements CountryResolverInterface {
         double lng = (double)((JSONArray)obj.get("latlng")).get(1);
         return Distance.euclidean(lat, BA_LAT, lng, BA_LNG);
     }
+
 
 }

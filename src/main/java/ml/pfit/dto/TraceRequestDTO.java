@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Component
 @Getter
 @Setter
-public class TraceRequest {
+public class TraceRequestDTO {
 
     private String ip;
 
@@ -34,11 +34,11 @@ public class TraceRequest {
 
     private Long responseTimeMS;
 
-    public TraceRequest(String ip) {
+    public TraceRequestDTO(String ip) {
         this.ip = ip;
     }
 
-    public TraceRequest() {
+    public TraceRequestDTO() {
     }
 
     /** calculates local times based on the timeZone */

@@ -1,18 +1,22 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.TraceRequest;
-import org.json.simple.JSONObject;
+import ml.pfit.dto.CountryRequestDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CountryMockResolver implements CountryResolverInterface {
 
-    public void resolve(TraceRequest traceRequest) throws Exception {
-        traceRequest.setCurrency("ARS");
-        traceRequest.setLanguages(new ArrayList<>(Arrays.asList("Spanish")));
-        traceRequest.setTimeZones(new ArrayList<>(Arrays.asList("UTC-3")));
-        traceRequest.setDistance(500);
-        traceRequest.calculateLocalTimes();
+    @Autowired
+    CountryRequestDTO dto;
+
+    @Override
+    public CountryRequestDTO resolve(String countryCode) {
+        dto.setCurrency("ARS");
+        dto.setLanguages(new ArrayList<>(Arrays.asList("Spanish")));
+        dto.setTimeZones(new ArrayList<>(Arrays.asList("UTC-3")));
+        dto.setDistance(500);
+        return dto;
     }
 }

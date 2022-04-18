@@ -1,8 +1,9 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.CurrencyRequestDTO;
+
 
 public interface CurrencyResolverInterface {
 
-    public void resolve(TraceRequest traceRequest);
+    CurrencyRequestDTO resolve(String currencyCode);
 }

@@ -1,6 +1,6 @@
 package ml.pfit.service;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.TraceRequestDTO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,11 +18,11 @@ public class StatsAspect {
         this.stats = stats;
     }
 
-    @Around("execution(public ml.pfit.dto.TraceRequest ml.pfit.resolve.RequestResolver.resolve(..))")
+    @Around("execution(public ml.pfit.dto.TraceRequestDTO ml.pfit.resolve.RequestResolver.resolve(..))")
     public Object updateStats(ProceedingJoinPoint joinPoint) {
         try {
             long now = System.currentTimeMillis();
-            TraceRequest res = (TraceRequest)joinPoint.proceed();
+            TraceRequestDTO res = (TraceRequestDTO)joinPoint.proceed();
             stats.storeRequest(res);
             long elapsed = (System.currentTimeMillis() - now);
             res.setResponseTimeMS(elapsed);

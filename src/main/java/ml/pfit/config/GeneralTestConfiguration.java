@@ -1,6 +1,6 @@
 package ml.pfit.config;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.resolve.*;
 import ml.pfit.service.StatsInterface;
 import ml.pfit.service.VolatileStatsImpl;
@@ -25,8 +25,8 @@ public class GeneralTestConfiguration {
 
     @Bean
     @RequestScope
-    public TraceRequest request() {
-        return new TraceRequest();
+    public TraceRequestDTO request() {
+        return new TraceRequestDTO();
     }
 
     @Bean

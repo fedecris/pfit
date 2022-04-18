@@ -1,7 +1,10 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.TraceRequest;
-import ml.pfit.service.StatsInterface;
+import ml.pfit.dto.IPRequestDTO;
+import ml.pfit.dto.TraceRequestDTO;
+import ml.pfit.mapper.CountryRequestMapper;
+import ml.pfit.mapper.CurrencyRequestMapper;
+import ml.pfit.mapper.IPRequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -23,16 +26,25 @@ public class RequestResolver {
         this.currencyResolver = currencyResolver;
     }
 
+    @Autowired
+    IPRequestMapper ipMapper;
+
+    @Autowired
+    CountryRequestMapper countryMapper;
+
+    @Autowired
+    CurrencyRequestMapper currencyMapper;
+
     /** Retrieves the complete information of a request
-     *  @param traceRequest the request to solve
+     *  @param traceRequestDTO the request to solve
      *  @return the retrieved information related with the Country */
-    @Cacheable(cacheManager="default.cache", key="#traceRequest.ip", value="traceRequest")
-    public TraceRequest resolve(TraceRequest traceRequest) throws Exception {
+    public TraceRequestDTO resolve(TraceRequestDTO traceRequestDTO) throws Exception {
         // Retrieve info from the APIs
-        ipResolver.resolve(traceRequest);
-        countryResolver.resolve(traceRequest);
-        currencyResolver.resolve(traceRequest);
-        return traceRequest;
+        ipMapper.map(ipResolver.resolve(traceRequestDTO.getIp()), traceRequestDTO);
+        countryMapper.map(countryResolver.resolve(traceRequestDTO.getCode()), traceRequestDTO);
+        currencyMapper.map(currencyResolver.resolve(traceRequestDTO.getCurrency()), traceRequestDTO);
+        traceRequestDTO.calculateLocalTimes();
+        return traceRequestDTO;
     }
 
 }

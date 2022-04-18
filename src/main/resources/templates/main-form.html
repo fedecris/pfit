@@ -10,43 +10,43 @@
     <div class="card-body">
         <div class="col-md-10">
             <div class="row">
-                <form action="#" th:action="@{/}" th:object="${traceRequest}" method="post">
+                <form action="#" th:action="@{/}" th:object="${traceRequestDTO}" method="post">
                     <div class="form-group col-md-8">
                         <label for="ip" class="col-form-label" /> IP Address:
                         <input type="text" id="ip" th:field="*{ip}" class="form-control" />
                     </div>
                 </form>
             </div>
-            <div th:if="${traceRequest!=null}" class="row">
-                <div th:if="${!#strings.isEmpty(traceRequest.name)}" class="form-group col-md-8">
+            <div th:if="${traceRequestDTO!=null}" class="row">
+                <div th:if="${!#strings.isEmpty(traceRequestDTO.name)}" class="form-group col-md-8">
                     <div >Name </div>
-                    <div class="fs-1" th:text=${traceRequest.name}></div>
+                    <div class="fs-1" th:text=${traceRequestDTO.name}></div>
                 </div>
-                <div th:if="${!#strings.isEmpty(traceRequest.code)}" class="form-group col-md-8">
+                <div th:if="${!#strings.isEmpty(traceRequestDTO.code)}" class="form-group col-md-8">
                     <div >Code </div>
-                    <div class="fs-1" th:text=${traceRequest.code}></div>
+                    <div class="fs-1" th:text=${traceRequestDTO.code}></div>
                 </div>
-                <div th:if="${!#strings.isEmpty(traceRequest.distance)}" class="form-group col-md-8">
+                <div th:if="${!#strings.isEmpty(traceRequestDTO.distance)}" class="form-group col-md-8">
                     <div >Distance from B.A. </div>
-                    <div class="fs-1" th:text=${traceRequest.distance}></div>
+                    <div class="fs-1" th:text=${traceRequestDTO.distance}></div>
                 </div>
-                <div th:if="${!#strings.isEmpty(traceRequest.currency)}" class="form-group col-md-8">
+                <div th:if="${!#strings.isEmpty(traceRequestDTO.currency)}" class="form-group col-md-8">
                     <div >Currency </div>
-                    <div class="fs-1" th:text=${traceRequest.currency}></div>
+                    <div class="fs-1" th:text=${traceRequestDTO.currency}></div>
                 </div>
-                <div th:if="${!#strings.isEmpty(traceRequest.currencyRateUSD)}" class="form-group col-md-8">
+                <div th:if="${!#strings.isEmpty(traceRequestDTO.currencyRateUSD)}" class="form-group col-md-8">
                     <div >Currency Rate </div>
-                    <div class="fs-1" th:text=${traceRequest.currencyRateUSD}></div>
+                    <div class="fs-1" th:text=${traceRequestDTO.currencyRateUSD}></div>
                 </div>
-                <div th:if="${!#strings.isEmpty(traceRequest.languages)}" class="form-group col-md-8">
+                <div th:if="${!#strings.isEmpty(traceRequestDTO.languages)}" class="form-group col-md-8">
                     <div >Languages </div>
-                    <div th:each="language: ${traceRequest.languages}">
+                    <div th:each="language: ${traceRequestDTO.languages}">
                         <div class="fs-1"  th:text="${language}"></div>
                     </div>
                 </div>
-                <div th:if="${!#strings.isEmpty(traceRequest.localTimes)}" class="form-group col-md-8">
+                <div th:if="${!#strings.isEmpty(traceRequestDTO.localTimes)}" class="form-group col-md-8">
                     <div >Local Times </div>
-                    <div th:each="localTime: ${traceRequest.localTimes}">
+                    <div th:each="localTime: ${traceRequestDTO.localTimes}">
                         <div class="fs-1" th:text="${localTime}"></div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
             </div>
             <div th:if="${stats!=null}" class="row">
                 <div >Response time (MS) </div>
-                <div class="fs-1" th:text="${traceRequest.responseTimeMS}"></div>
+                <div class="fs-1" th:text="${traceRequestDTO.responseTimeMS}"></div>
             </div>
         </div>
     </div>

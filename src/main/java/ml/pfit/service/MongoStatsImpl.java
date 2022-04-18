@@ -1,6 +1,6 @@
 package ml.pfit.service;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.model.RequestStats;
 import ml.pfit.repository.RequestStatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ public class MongoStatsImpl implements StatsInterface {
     protected RequestStats rs = null;
 
     @Override
-    public void storeRequest(TraceRequest traceRequest) {
+    public void storeRequest(TraceRequestDTO traceRequestDTO) {
         getRS().setTotalRequests(getRS().getTotalRequests()+1);
-        getRS().setTotalDistance(getRS().getTotalDistance()+traceRequest.getDistance());
-        getRS().setMaxDistance(Math.max(getRS().getMaxDistance(), traceRequest.getDistance()));
-        getRS().setMinDistance(Math.min(getRS().getMinDistance(), traceRequest.getDistance()));
+        getRS().setTotalDistance(getRS().getTotalDistance()+ traceRequestDTO.getDistance());
+        getRS().setMaxDistance(Math.max(getRS().getMaxDistance(), traceRequestDTO.getDistance()));
+        getRS().setMinDistance(Math.min(getRS().getMinDistance(), traceRequestDTO.getDistance()));
         repository.save(getRS());
     }
 

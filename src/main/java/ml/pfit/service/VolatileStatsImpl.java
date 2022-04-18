@@ -1,6 +1,6 @@
 package ml.pfit.service;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.TraceRequestDTO;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,13 +22,13 @@ public class VolatileStatsImpl implements StatsInterface {
     protected static Integer minDist = Integer.MAX_VALUE;
 
     @Override
-    public synchronized void storeRequest(TraceRequest traceRequest) {
+    public synchronized void storeRequest(TraceRequestDTO traceRequestDTO) {
         // Accumulative distance & requests count
-        totalDistance += traceRequest.getDistance();
+        totalDistance += traceRequestDTO.getDistance();
         totalRequest += 1;
         // Set max, min distances (if corresponds)
-        maxDist = Math.max(maxDist, traceRequest.getDistance());
-        minDist = Math.min(minDist, traceRequest.getDistance());
+        maxDist = Math.max(maxDist, traceRequestDTO.getDistance());
+        minDist = Math.min(minDist, traceRequestDTO.getDistance());
     }
 
     @Override

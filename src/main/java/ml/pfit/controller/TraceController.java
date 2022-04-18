@@ -1,6 +1,6 @@
 package ml.pfit.controller;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.resolve.RequestResolver;
 import ml.pfit.service.StatsInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +28,10 @@ public class TraceController {
 
     /** End-point for retrieving info about a specific IP */
     @GetMapping("/api/traceip/{ip}")
-    public @ResponseBody TraceRequest traceIP(Model model, @PathVariable("ip") String ip, @ModelAttribute TraceRequest traceRequest) {
+    public @ResponseBody
+    TraceRequestDTO traceIP(Model model, @PathVariable("ip") String ip, @ModelAttribute TraceRequestDTO traceRequestDTO) {
         try {
-            return requestResolver.resolve(traceRequest);
+            return requestResolver.resolve(traceRequestDTO);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

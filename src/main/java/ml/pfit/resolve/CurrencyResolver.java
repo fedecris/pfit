@@ -1,6 +1,7 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.TraceRequest;
+import ml.pfit.dto.CurrencyRequestDTO;
+import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +25,28 @@ public class CurrencyResolver implements CurrencyResolverInterface {
         this.remoteAPI = remoteAPI;
     }
 
+    @Autowired
+    CurrencyRequestDTO dto;
+
     /**
      * Retrieves currency rate information about a country based on its main currency.
      * If no info is available, will set 0.0 as currency rate
-     * @param traceRequest instance to be loaded */
-    public void resolve(TraceRequest traceRequest)  {
+     */
+    @Cacheable(cacheManager="default.cache", key="#currencyCode", value="CurrencyRequestDTO")
+    public CurrencyRequestDTO resolve(String currencyCode) {
         try {
-            JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + traceRequest.getCurrency());
+            JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + currencyCode);
             // Free plan only allows EUR as base currency.  Otherwise a base_currency_access_restricted is returned
             JSONObject rates =  (JSONObject)response.get("rates");
             double usdRate = (double) rates.get("USD");
-            double targetRate = (double) rates.get(traceRequest.getCurrency());
-            traceRequest.setCurrencyRateUSD(targetRate / usdRate);
+            double targetRate = (double) rates.get(currencyCode);
+            dto.setCurrencyRateUSD(targetRate / usdRate);
         } catch (Exception e) {
             // API not available, limit reached or information unavailable.
             // Currency conversion not available, ignore.
-            traceRequest.setCurrencyRateUSD(0.0);
+            dto.setCurrencyRateUSD(0.0);
         }
+        return dto;
     }
 
 }

@@ -1,12 +1,18 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.TraceRequest;
-import org.json.simple.JSONObject;
+import ml.pfit.dto.IPRequestDTO;
+import ml.pfit.dto.TraceRequestDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class IPMockResolver implements IPResolverInterface {
 
-    public void resolve(TraceRequest traceRequest) throws Exception {
-        traceRequest.setCode("ARG");
-        traceRequest.setName("Argentina");
+    @Autowired
+    IPRequestDTO dto;
+
+    @Override
+    public IPRequestDTO resolve(String ip) throws Exception {
+        dto.setCode("ARG");
+        dto.setName("Argentina");
+        return dto;
     }
 }
