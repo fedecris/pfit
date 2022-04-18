@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CurrencyResolver {
+public class CurrencyResolver implements CurrencyResolverInterface {
 
     @Value("${currency.api.baseurl}")
     private String API_BASE_URL;

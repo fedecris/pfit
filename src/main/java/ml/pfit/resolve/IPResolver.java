@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IPResolver {
+public class IPResolver implements IPResolverInterface {
 
     @Value("${ip.api.baseurl}")
     private String API_BASE_URL;

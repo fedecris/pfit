@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
-public class CountryResolver {
+public class CountryResolver implements CountryResolverInterface {
 
     /** Buenos Aires City Latitude */
     static final double BA_LAT = -34.6037f;

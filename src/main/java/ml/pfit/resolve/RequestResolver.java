@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestResolver {
 
-    private final IPResolver ipResolver;
+    private final IPResolverInterface ipResolver;
 
-    private final CountryResolver countryResolver;
+    private final CountryResolverInterface countryResolver;
 
-    private final CurrencyResolver currencyResolver;
+    private final CurrencyResolverInterface currencyResolver;
 
     @Autowired
-    public RequestResolver(IPResolver ipResolver, CountryResolver countryResolver, CurrencyResolver currencyResolver) {
+    public RequestResolver(IPResolverInterface ipResolver, CountryResolverInterface countryResolver, CurrencyResolverInterface currencyResolver) {
         this.ipResolver = ipResolver;
         this.countryResolver = countryResolver;
         this.currencyResolver = currencyResolver;

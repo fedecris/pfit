@@ -2,17 +2,12 @@ package ml.pfit.config;
 
 import ml.pfit.cache.CacheManager;
 import ml.pfit.dto.TraceRequest;
-import ml.pfit.resolve.CountryResolver;
-import ml.pfit.resolve.CurrencyResolver;
-import ml.pfit.resolve.IPResolver;
+import ml.pfit.resolve.*;
 import ml.pfit.service.StatsInterface;
 import ml.pfit.service.VolatileStatsImpl;
 import ml.pfit.utils.RemoteAPI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Configuration
@@ -39,13 +34,31 @@ public class Generals {
 
     @Bean
     @Primary
-    public IPResolver getIPResolver() { return new IPResolver(remoteAPI, cacheManager); }
+    @Profile("prod")
+    public IPResolverInterface getIPResolver() { return new IPResolver(remoteAPI, cacheManager); }
 
     @Bean
     @Primary
-    public CountryResolver getCountryResolver() { return new CountryResolver(remoteAPI, cacheManager); }
+    @Profile("prod")
+    public CountryResolverInterface getCountryResolver() { return new CountryResolver(remoteAPI, cacheManager); }
 
     @Bean
     @Primary
-    public CurrencyResolver getCurrencyResolver() { return new CurrencyResolver(remoteAPI, cacheManager); }
+    @Profile("prod")
+    public CurrencyResolverInterface getCurrencyResolver() { return new CurrencyResolver(remoteAPI, cacheManager); }
+
+    @Bean
+    @Primary
+    @Profile("test")
+    public IPResolverInterface getIPResolverTest() { return new IPMockResolver(); }
+
+    @Bean
+    @Primary
+    @Profile("test")
+    public CountryResolverInterface getCountryResolverTest() { return new CountryMockResolver(); }
+
+    @Bean
+    @Primary
+    @Profile("test")
+    public CurrencyResolverInterface getCurrencyResolverTest() { return new CurrencyMockResolver(); }
 }
