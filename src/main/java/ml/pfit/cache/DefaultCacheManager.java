@@ -1,18 +1,25 @@
 package ml.pfit.cache;
 
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+
+import java.util.Arrays;
 
 @Configuration
 public class DefaultCacheManager {
 
     @Bean("default.cache")
-    @Primary
     public CacheManager defaultCacheManager() {
-        return new ConcurrentMapCacheManager();
+        SimpleCacheManager cacheManager = new SimpleCacheManager();
+        cacheManager.setCaches(Arrays.asList(
+                new ConcurrentMapCache("ips"),
+                new ConcurrentMapCache("countries"),
+                new ConcurrentMapCache("currencies")
+                ));
+        return cacheManager;
     }
 
 }

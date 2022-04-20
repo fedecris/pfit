@@ -1,11 +1,13 @@
 package ml.pfit.resolve;
 
+
 import ml.pfit.dto.CountryRequestDTO;
-import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.utils.Distance;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 
 @Component
 public class CountryResolver implements CountryResolverInterface {
+
+    private static final Logger Log = LoggerFactory.getLogger(CountryResolver.class);
 
     /** Buenos Aires City Latitude */
     static final double BA_LAT = -34.6037f;
@@ -31,15 +35,15 @@ public class CountryResolver implements CountryResolverInterface {
         this.remoteAPI = remoteAPI;
     }
 
-    @Autowired
-    CountryRequestDTO dto;
 
     /**
      * Retrieves additional information about a country based on its code
      */
-    @Cacheable(cacheManager="default.cache", key="#countryCode", value="CountryRequestDTO")
+    @Cacheable(cacheManager = "default.cache", value = "countries", key="#countryCode")
     public CountryRequestDTO resolve(String countryCode) throws Exception {
+        Log.info(String.format("Resolving countryCode %s...", countryCode));
         JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + countryCode);
+        CountryRequestDTO dto = new CountryRequestDTO();
         dto.setCurrency(getCurrency(response));
         dto.setLanguages(getLanguages(response));
         dto.setTimeZones(getTimeZones(response));

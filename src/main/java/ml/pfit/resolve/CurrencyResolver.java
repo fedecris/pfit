@@ -1,9 +1,12 @@
 package ml.pfit.resolve;
 
+
+
 import ml.pfit.dto.CurrencyRequestDTO;
-import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CurrencyResolver implements CurrencyResolverInterface {
+
+    private static final Logger Log = LoggerFactory.getLogger(CurrencyResolver.class);
 
     @Value("${currency.api.baseurl}")
     private String API_BASE_URL;
@@ -25,16 +30,16 @@ public class CurrencyResolver implements CurrencyResolverInterface {
         this.remoteAPI = remoteAPI;
     }
 
-    @Autowired
-    CurrencyRequestDTO dto;
 
     /**
      * Retrieves currency rate information about a country based on its main currency.
      * If no info is available, will set 0.0 as currency rate
      */
-    @Cacheable(cacheManager="default.cache", key="#currencyCode", value="CurrencyRequestDTO")
+    @Cacheable(cacheManager = "default.cache", value = "currencies", key="#currencyCode")
     public CurrencyRequestDTO resolve(String currencyCode) {
+        CurrencyRequestDTO dto = new CurrencyRequestDTO();
         try {
+            Log.info(String.format("Resolving currency %s...", currencyCode));
             JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + currencyCode);
             // Free plan only allows EUR as base currency.  Otherwise a base_currency_access_restricted is returned
             JSONObject rates =  (JSONObject)response.get("rates");

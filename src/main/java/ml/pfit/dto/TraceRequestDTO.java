@@ -41,9 +41,10 @@ public class TraceRequestDTO {
     public TraceRequestDTO() {
     }
 
-    /** calculates local times based on the timeZone */
-    public void calculateLocalTimes() {
+    public void setTimeZones(ArrayList<String> timeZones) {
+        this.timeZones = timeZones;
         localTimes = new ArrayList<>();
         timeZones.forEach(tz -> localTimes.add( ZonedDateTime.now().withZoneSameInstant(ZoneId.of(tz)).toString() ));
     }
+
 }
