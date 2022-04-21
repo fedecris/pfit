@@ -1,21 +1,23 @@
 package ml.pfit.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import java.util.ArrayList;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Country {
 
-    private String code;
+    private final String code;
 
-    private ArrayList<String> languages;
+    private final ArrayList<String> languages;
 
-    private ArrayList<String> timeZones;
+    private final ArrayList<String> timeZones;
 
-    private Integer distance;
+    private final Integer distance;
 
-    private String currency;
+    private final String currency;
 
 }

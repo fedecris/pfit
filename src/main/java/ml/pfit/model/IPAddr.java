@@ -1,15 +1,17 @@
 package ml.pfit.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class IPAddr {
 
-    private String ip;
+    private final String ip;
 
-    private String code;
+    private final String code;
 
-    private String name;
+    private final String name;
 }

@@ -1,5 +1,6 @@
 package ml.pfit.controller;
 
+import lombok.RequiredArgsConstructor;
 import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.resolve.RequestResolver;
 import ml.pfit.service.StatsInterface;
@@ -12,17 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
+@RequiredArgsConstructor
 public class WebController {
 
-    @Autowired
-    RequestResolver requestResolver;
+    private final RequestResolver requestResolver;
 
     private final StatsInterface stats;
-
-    @Autowired
-    public WebController(StatsInterface stats) {
-        this.stats = stats;
-    }
 
     /** Main page */
     @GetMapping("/")

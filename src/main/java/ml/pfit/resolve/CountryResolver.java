@@ -1,14 +1,12 @@
 package ml.pfit.resolve;
 
 
+import lombok.RequiredArgsConstructor;
 import ml.pfit.model.Country;
 import ml.pfit.utils.Distance;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -16,9 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
+@RequiredArgsConstructor
 public class CountryResolver implements CountryResolverInterface {
-
-    private static final Logger Log = LoggerFactory.getLogger(CountryResolver.class);
 
     /** Buenos Aires City Latitude */
     static final double BA_LAT = -34.6037f;
@@ -30,25 +27,11 @@ public class CountryResolver implements CountryResolverInterface {
 
     private final RemoteAPI remoteAPI;
 
-    @Autowired
-    public CountryResolver(RemoteAPI remoteAPI) {
-        this.remoteAPI = remoteAPI;
-    }
-
-
-    /**
-     * Retrieves additional information about a country based on its code
-     */
+    /** Retrieves additional information about a country based on its code */
     @Cacheable(cacheManager = "default.cache", value = "countries", key="#countryCode")
     public Country resolve(String countryCode) throws Exception {
-        Log.info(String.format("Resolving countryCode %s...", countryCode));
         JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + countryCode);
-        Country dto = new Country();
-        dto.setCurrency(getCurrency(response));
-        dto.setLanguages(getLanguages(response));
-        dto.setTimeZones(getTimeZones(response));
-        dto.setDistance(getDistance(response));
-        return dto;
+        return new Country(countryCode, getLanguages(response), getTimeZones(response), getDistance(response), getCurrency(response));
     }
 
     /** @return the main currency of the country */

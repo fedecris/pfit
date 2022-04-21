@@ -1,5 +1,6 @@
 package ml.pfit.controller;
 
+import lombok.RequiredArgsConstructor;
 import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.resolve.RequestResolver;
 import ml.pfit.service.StatsInterface;
@@ -14,17 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequiredArgsConstructor
 public class TraceController {
 
-    @Autowired
-    RequestResolver requestResolver;
+    private final RequestResolver requestResolver;
 
     private final StatsInterface stats;
-
-    @Autowired
-    public TraceController(StatsInterface stats) {
-        this.stats = stats;
-    }
 
     /** End-point for retrieving info about a specific IP */
     @GetMapping("/api/traceip/{ip}")
