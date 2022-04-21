@@ -1,6 +1,6 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.IPRequestDTO;
+import ml.pfit.model.IPAddr;
 import ml.pfit.dto.TraceRequestDTO;
 import ml.pfit.mapper.CountryRequestMapper;
 import ml.pfit.mapper.CurrencyRequestMapper;
@@ -8,7 +8,6 @@ import ml.pfit.mapper.IPRequestMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 
@@ -45,7 +44,7 @@ public class RequestResolver {
     public TraceRequestDTO resolve(TraceRequestDTO traceRequestDTO) throws Exception {
         Log.info(String.format("--> Tracing Started! %s", traceRequestDTO));
         // Retrieve info from the APIs
-        IPRequestDTO ipr = ipResolver.resolve(traceRequestDTO.getIp());
+        IPAddr ipr = ipResolver.resolve(traceRequestDTO.getIp());
         ipMapper.map(ipr, traceRequestDTO);
         countryMapper.map(countryResolver.resolve(traceRequestDTO.getCode()), traceRequestDTO);
         currencyMapper.map(currencyResolver.resolve(traceRequestDTO.getCurrency()), traceRequestDTO);

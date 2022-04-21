@@ -1,9 +1,8 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.IPRequestDTO;
-import ml.pfit.dto.TraceRequestDTO;
+import ml.pfit.model.IPAddr;
 
 public interface IPResolverInterface {
 
-    IPRequestDTO resolve(String ip) throws Exception;
+    IPAddr resolve(String ip) throws Exception;
 }

@@ -1,11 +1,11 @@
-package ml.pfit.dto;
+package ml.pfit.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class IPRequestDTO {
+public class IPAddr {
 
     private String ip;
 

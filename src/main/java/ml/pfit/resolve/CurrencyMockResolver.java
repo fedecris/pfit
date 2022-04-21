@@ -1,16 +1,15 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.CurrencyRequestDTO;
-import ml.pfit.dto.TraceRequestDTO;
+import ml.pfit.model.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CurrencyMockResolver implements CurrencyResolverInterface {
 
     @Autowired
-    CurrencyRequestDTO dto;
+    Currency dto;
 
     @Override
-    public CurrencyRequestDTO resolve(String currencyCode) {
+    public Currency resolve(String currencyCode) {
         dto.setCurrencyRateUSD(115.0);
         return dto;
     }

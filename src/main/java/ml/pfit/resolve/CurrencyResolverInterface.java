@@ -1,9 +1,9 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.CurrencyRequestDTO;
+import ml.pfit.model.Currency;
 
 
 public interface CurrencyResolverInterface {
 
-    CurrencyRequestDTO resolve(String currencyCode);
+    Currency resolve(String currencyCode);
 }

@@ -1,6 +1,6 @@
 package ml.pfit.mapper;
 
-import ml.pfit.dto.CurrencyRequestDTO;
+import ml.pfit.model.Currency;
 import ml.pfit.dto.TraceRequestDTO;
 import org.mapstruct.*;
 
@@ -9,6 +9,6 @@ public interface CurrencyRequestMapper {
 
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "currencyRateUSD", source = "currencyRateUSD")
-    void map(CurrencyRequestDTO dto, @MappingTarget TraceRequestDTO traceDTO);
+    void map(Currency dto, @MappingTarget TraceRequestDTO traceDTO);
 
 }

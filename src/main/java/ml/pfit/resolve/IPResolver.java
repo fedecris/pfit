@@ -1,6 +1,6 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.IPRequestDTO;
+import ml.pfit.model.IPAddr;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -29,11 +29,11 @@ public class IPResolver implements IPResolverInterface {
      * Retrieves information about a country based on its IP
      */
     @Cacheable(cacheManager = "default.cache", value = "ips", key="#ip")
-    public IPRequestDTO resolve(String ip) throws Exception {
+    public IPAddr resolve(String ip) throws Exception {
         Log.info(String.format("Resolving IP %s...", ip));
         // Retrieve IP info
         JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL.replace("IP_PLACEHOLDER", ip));
-        IPRequestDTO dto = new IPRequestDTO();
+        IPAddr dto = new IPAddr();
         dto.setCode((String)response.get("country_code"));
         dto.setName((String)response.get("country_name"));
         return dto;

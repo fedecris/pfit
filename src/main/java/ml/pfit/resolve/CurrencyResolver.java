@@ -2,7 +2,7 @@ package ml.pfit.resolve;
 
 
 
-import ml.pfit.dto.CurrencyRequestDTO;
+import ml.pfit.model.Currency;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -36,8 +36,8 @@ public class CurrencyResolver implements CurrencyResolverInterface {
      * If no info is available, will set 0.0 as currency rate
      */
     @Cacheable(cacheManager = "default.cache", value = "currencies", key="#currencyCode")
-    public CurrencyRequestDTO resolve(String currencyCode) {
-        CurrencyRequestDTO dto = new CurrencyRequestDTO();
+    public Currency resolve(String currencyCode) {
+        Currency dto = new Currency();
         try {
             Log.info(String.format("Resolving currency %s...", currencyCode));
             JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + currencyCode);

@@ -1,8 +1,8 @@
 package ml.pfit.resolve;
 
-import ml.pfit.dto.CountryRequestDTO;
+import ml.pfit.model.Country;
 
 public interface CountryResolverInterface {
 
-    CountryRequestDTO resolve(String countryCode) throws Exception;
+    Country resolve(String countryCode) throws Exception;
 }

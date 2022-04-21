@@ -1,7 +1,7 @@
 package ml.pfit.resolve;
 
 
-import ml.pfit.dto.CountryRequestDTO;
+import ml.pfit.model.Country;
 import ml.pfit.utils.Distance;
 import ml.pfit.utils.RemoteAPI;
 import org.json.simple.JSONArray;
@@ -40,10 +40,10 @@ public class CountryResolver implements CountryResolverInterface {
      * Retrieves additional information about a country based on its code
      */
     @Cacheable(cacheManager = "default.cache", value = "countries", key="#countryCode")
-    public CountryRequestDTO resolve(String countryCode) throws Exception {
+    public Country resolve(String countryCode) throws Exception {
         Log.info(String.format("Resolving countryCode %s...", countryCode));
         JSONObject response = (JSONObject) remoteAPI.call(API_BASE_URL + countryCode);
-        CountryRequestDTO dto = new CountryRequestDTO();
+        Country dto = new Country();
         dto.setCurrency(getCurrency(response));
         dto.setLanguages(getLanguages(response));
         dto.setTimeZones(getTimeZones(response));
