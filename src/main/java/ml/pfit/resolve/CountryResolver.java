@@ -23,7 +23,7 @@ public class CountryResolver implements CountryResolverInterface {
     static final double BA_LNG = -58.3816f;
 
     @Value("${country.api.baseurl}")
-    private String API_BASE_URL;
+    private String API_BASE_URL = "";
 
     private final RemoteAPI remoteAPI;
 

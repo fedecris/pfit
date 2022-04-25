@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class IPResolver implements IPResolverInterface {
 
     @Value("${ip.api.baseurl}")
-    private String API_BASE_URL;
+    private String API_BASE_URL = "";
 
     private final RemoteAPI remoteAPI;
 

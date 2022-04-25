@@ -2,7 +2,7 @@ package ml.pfit.resolve;
 
 import ml.pfit.model.IPAddr;
 
-public class IPMockResolver implements IPResolverInterface {
+public class IPResolverStub implements IPResolverInterface {
 
     @Override
     public IPAddr resolve(String ip) throws Exception {

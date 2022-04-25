@@ -5,7 +5,7 @@ import ml.pfit.model.Country;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CountryMockResolver implements CountryResolverInterface {
+public class CountryResolverStub implements CountryResolverInterface {
 
     @Override
     public Country resolve(String countryCode) {

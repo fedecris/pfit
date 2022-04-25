@@ -2,7 +2,7 @@ package ml.pfit.resolve;
 
 import ml.pfit.model.Currency;
 
-public class CurrencyMockResolver implements CurrencyResolverInterface {
+public class CurrencyResolverStub implements CurrencyResolverInterface {
 
     @Override
     public Currency resolve(String currencyCode) {

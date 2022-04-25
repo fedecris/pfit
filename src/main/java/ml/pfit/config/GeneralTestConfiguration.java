@@ -31,14 +31,14 @@ public class GeneralTestConfiguration {
 
     @Bean
     @Primary
-    public IPResolverInterface getIPResolverTest() { return new IPMockResolver(); }
+    public IPResolverInterface getIPResolverTest() { return new IPResolverStub(); }
 
     @Bean
     @Primary
-    public CountryResolverInterface getCountryResolverTest() { return new CountryMockResolver(); }
+    public CountryResolverInterface getCountryResolverTest() { return new CountryResolverStub(); }
 
     @Bean
     @Primary
-    public CurrencyResolverInterface getCurrencyResolverTest() { return new CurrencyMockResolver(); }
+    public CurrencyResolverInterface getCurrencyResolverTest() { return new CurrencyResolverStub(); }
 
 }

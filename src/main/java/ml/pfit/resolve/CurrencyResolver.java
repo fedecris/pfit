@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class CurrencyResolver implements CurrencyResolverInterface {
 
     @Value("${currency.api.baseurl}")
-    private String API_BASE_URL;
+    private String API_BASE_URL = "";
 
     @Value("${currency.api.cachemins}")
     private Integer API_CACHE_EXP_MINS;
