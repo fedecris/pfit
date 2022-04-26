@@ -1,7 +1,9 @@
 package ml.pfit.resolve;
 
 import ml.pfit.model.Currency;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CurrencyResolverStub implements CurrencyResolverInterface {
 
     @Override
