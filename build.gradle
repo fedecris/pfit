@@ -31,8 +31,7 @@ dependencies {
 	implementation 'org.springframework:spring-aop:5.2.9.RELEASE'
 	implementation 'org.springframework:spring-aspects:5.2.9.RELEASE'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.6.6'
-
-
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 tasks.named('test') {
